@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Keystore local (HTTPS de desarrollo) ###
+/keystore/
