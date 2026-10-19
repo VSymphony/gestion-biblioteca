@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout::head}">
+</head>
+<body>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Mantenimiento de Préstamos</h1>
+        <button class="btn btn-primary" onclick="nuevoPrestamo()">
+            <i class="fas fa-plus"></i> Nuevo Préstamo
+        </button>
+    </div>
+    <div id="mensajePrestamo"></div>
+    <table class="table table-hover" id="tablaPrestamos">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Libro</th>
+            <th>Usuario</th>
+            <th>Préstamo</th>
+            <th>Devolución hasta</th>
+            <th>Estado</th>
+            <th>Devuelto el</th>
+            <th style="width: 120px;">Acciones</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="modalPrestamo" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-dark">
+                <h1 class="modal-title fs-5">Nuevo Préstamo</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="usuarioPrestamo" class="form-label">Usuario</label>
+                    <select class="form-select" id="usuarioPrestamo"></select>
+                </div>
+                <div class="mb-3">
+                    <label for="libroPrestamo" class="form-label">Libro (stock disponible)</label>
+                    <select class="form-select" id="libroPrestamo"></select>
+                </div>
+                <p class="text-muted mb-0">El plazo de devolución es de 7 días.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="grabarPrestamo()">Registrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/scripts/web/comun.js}"></script>
+<script th:src="@{/scripts/web/frmMantPrestamo.js}"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout::head}">
+</head>
+<body>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="container mt-4">
+    <h1>Catálogo de Libros</h1>
+    <form class="row g-2 mb-3" method="get" th:action="@{/catalogo}">
+        <div class="col-auto">
+            <input type="text" class="form-control" name="q" th:value="${q}"
+                   placeholder="Buscar por título o autor">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            <a class="btn btn-secondary" th:href="@{/catalogo}">Ver todos</a>
+        </div>
+    </form>
+    <table class="table table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoría</th>
+            <th>Año</th>
+            <th>Stock</th>
+            <th>Estado</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="l : ${libros}">
+            <td th:text="${l.titulo}"></td>
+            <td th:text="${l.autor}"></td>
+            <td th:text="${l.categoria != null ? l.categoria.nombre : ''}"></td>
+            <td th:text="${l.anio}"></td>
+            <td th:text="${l.stock}"></td>
+            <td>
+                <span class="badge text-bg-success"
+                      th:if="${l.stock != null and l.stock > 0}">Disponible</span>
+                <span class="badge text-bg-secondary"
+                      th:unless="${l.stock != null and l.stock > 0}">Agotado</span>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(libros)}">
+            <td colspan="6" class="text-center text-muted">No se encontraron libros.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

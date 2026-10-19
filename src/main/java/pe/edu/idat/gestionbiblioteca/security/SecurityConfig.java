@@ -33,7 +33,7 @@ public class SecurityConfig {
                         "/static/**",
                         "/styles/**",
                         "/scripts/**").permitAll()
-                        .requestMatchers("/categoria/**", "/libro/**")
+                        .requestMatchers("/categoria/**", "/libro/**", "/prestamo/**")
                         .hasAnyRole("ADMIN", "BIBLIOTECARIO")
                 .requestMatchers("/usuario/**").hasRole("ADMIN")
                 .requestMatchers("/backoffice", "/backoffice/**")

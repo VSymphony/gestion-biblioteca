@@ -45,8 +45,9 @@ Se crean automáticamente al arrancar la app (solo si no existen):
 ## Autorización
 
 - Rutas públicas: login, registro y recursos estáticos.
-- `/backoffice/**`, `/categoria/**` y `/libro/**`: solo ADMIN y BIBLIOTECARIO.
+- `/backoffice/**`, `/categoria/**`, `/libro/**` y `/prestamo/**`: solo ADMIN y BIBLIOTECARIO.
 - `/usuario/**` y `/backoffice/usuarios`: solo ADMIN (ruta + `@PreAuthorize` a nivel de método).
+- `/catalogo` y `/misprestamos`: cualquier usuario autenticado.
 - Ocultar opciones en el menú es solo UX: la seguridad real se aplica en el servidor.
 
 ## Captcha (reCAPTCHA v2)
@@ -58,7 +59,7 @@ Se crean automáticamente al arrancar la app (solo si no existen):
 ## Mantenimientos (backoffice)
 
 - Categorías y libros: ADMIN y BIBLIOTECARIO. Usuarios: solo ADMIN.
-- Patrón JSON + modales: las tablas y formularios llaman por AJAX a `/categoria/*`, `/libro/*` y `/usuario/*`.
+- Patrón JSON + modales: las tablas y formularios llaman por AJAX a `/categoria/*`, `/libro/*`, `/usuario/*` y `/prestamo/*`.
 - Todas las respuestas usan el sobre `{respuesta, mensaje, data}` y los AJAX envían el token CSRF (meta tag en el layout).
 
 ## Sanitización (SQLi / XSS)
@@ -73,4 +74,4 @@ Se crean automáticamente al arrancar la app (solo si no existen):
 - [x] Fase 2 — Roles (ADMIN, BIBLIOTECARIO, LECTOR), autorización y home por rol
 - [x] Fase 3 — reCAPTCHA v2 en registro y login (validación server-side)
 - [x] Fase 4 — Dominio (Categoría, Libro, Préstamo) y mantenimientos (JSON + modales)
-- [ ] Fase 5 — Flujo de préstamos y catálogo
+- [x] Fase 5 — Flujo de préstamos (registro/devolución con stock) y catálogo

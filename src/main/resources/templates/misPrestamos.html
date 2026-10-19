@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout::head}">
+</head>
+<body>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="container mt-4">
+    <h1>Mis Préstamos</h1>
+    <table class="table table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>Libro</th>
+            <th>Préstamo</th>
+            <th>Devolución hasta</th>
+            <th>Estado</th>
+            <th>Devuelto el</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${prestamos}">
+            <td th:text="${p.libro != null ? p.libro.titulo : ''}"></td>
+            <td th:text="${#temporals.format(p.fechaprestamo, 'dd/MM/yyyy')}"></td>
+            <td th:text="${#temporals.format(p.fechadevolucion, 'dd/MM/yyyy')}"></td>
+            <td>
+                <span class="badge text-bg-success"
+                      th:if="${p.fechadevuelto != null}">Devuelto</span>
+                <span class="badge text-bg-danger"
+                      th:if="${p.fechadevuelto == null and p.fechadevolucion.isBefore(hoy)}">Vencido</span>
+                <span class="badge text-bg-warning"
+                      th:if="${p.fechadevuelto == null and !p.fechadevolucion.isBefore(hoy)}">Prestado</span>
+            </td>
+            <td th:text="${p.fechadevuelto != null
+                    ? #temporals.format(p.fechadevuelto, 'dd/MM/yyyy') : ''}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(prestamos)}">
+            <td colspan="5" class="text-center text-muted">Todavía no tienes préstamos.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

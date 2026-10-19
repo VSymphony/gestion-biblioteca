@@ -24,6 +24,11 @@ public class BackofficeController {
         return "backoffice/mantLibro";
     }
 
+    @GetMapping("/prestamos")
+    public String prestamos() {
+        return "backoffice/mantPrestamo";
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/usuarios")
     public String usuarios() {
