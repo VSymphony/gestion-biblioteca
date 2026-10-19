@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
     <meta charset="UTF-8">
     <title>Gestión de Biblioteca</title>
@@ -23,7 +24,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/auth/home}">Home</a>
+                    <a class="nav-link" aria-current="page" th:href="@{/auth/home}">Home</a>
+                </li>
+                <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'BIBLIOTECARIO')">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Mantenimientos
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/backoffice}">Panel</a></li>
+                        <li sec:authorize="hasRole('ADMIN')">
+                            <a class="dropdown-item" th:href="@{/backoffice/usuarios}">Usuarios</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
             <form th:action="@{/auth/logout}" method="post" class="d-flex" role="search">

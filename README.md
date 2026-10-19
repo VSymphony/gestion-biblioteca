@@ -32,10 +32,27 @@ base la app de referencia del curso y cubriendo los requisitos de seguridad obli
 
 Los usuarios nuevos que se registran desde la web quedan con el rol **LECTOR**.
 
+## Usuarios de prueba
+
+Se crean automáticamente al arrancar la app (solo si no existen):
+
+| Usuario | Password | Rol |
+|---|---|---|
+| admin | Admin12345 | ADMIN |
+| bibliotecario | Biblio12345 | BIBLIOTECARIO |
+| demo | Demo12345 | LECTOR |
+
+## Autorización
+
+- Rutas públicas: login, registro y recursos estáticos.
+- `/backoffice/**`: solo ADMIN y BIBLIOTECARIO (a nivel de ruta).
+- `/backoffice/usuarios`: solo ADMIN (a nivel de método con `@PreAuthorize`).
+- Ocultar opciones en el menú es solo UX: la seguridad real se aplica en el servidor.
+
 ## Estado del proyecto
 
 - [x] Fase 1 — Esqueleto: login / registro / logout con Spring Security y Argon2
-- [ ] Fase 2 — Roles (ADMIN, BIBLIOTECARIO, LECTOR) y autorización
+- [x] Fase 2 — Roles (ADMIN, BIBLIOTECARIO, LECTOR), autorización y home por rol
 - [ ] Fase 3 — reCAPTCHA
 - [ ] Fase 4 — Dominio (Categoría, Libro, Préstamo) y mantenimientos
 - [ ] Fase 5 — Flujo de préstamos y catálogo

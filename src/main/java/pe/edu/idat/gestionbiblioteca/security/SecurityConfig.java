@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,7 @@ import pe.edu.idat.gestionbiblioteca.service.DetalleUsuarioService;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final DetalleUsuarioService detalleUsuarioService;
@@ -27,7 +29,10 @@ public class SecurityConfig {
                         "/resources/**",
                         "/static/**",
                         "/styles/**",
-                        "/scripts/**").permitAll().anyRequest().authenticated()
+                        "/scripts/**").permitAll()
+                .requestMatchers("/backoffice", "/backoffice/**")
+                        .hasAnyRole("ADMIN", "BIBLIOTECARIO")
+                .anyRequest().authenticated()
         ).formLogin((form) ->
                 form.loginPage("/auth/login")
                         .loginProcessingUrl("/auth/login")
@@ -42,6 +47,8 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()
+        ).exceptionHandling(exception ->
+                exception.accessDeniedPage("/auth/denegado")
         ).authenticationProvider(authenticationProvider());
         return http.build();
 

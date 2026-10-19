@@ -63,6 +63,7 @@ public class DetalleUsuarioService implements UserDetailsService {
         );
 
         dto.setEmail(usuario.getEmail());
+        dto.setNombres(usuario.getNombres());
 
         return dto;
     }

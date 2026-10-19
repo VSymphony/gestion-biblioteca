@@ -39,9 +39,19 @@ public class AuthController {
         if(dto == null){
             return "redirect:/auth/login";
         }
+        String nombres = dto.getNombres();
+        if (nombres == null || nombres.isBlank()) {
+            nombres = dto.getUsername();
+        }
+        model.addAttribute("nombres", nombres);
         model.addAttribute("nombre", dto.getUsername());
         model.addAttribute("email", dto.getEmail());
         return "auth/home";
+    }
+
+    @GetMapping("/denegado")
+    public String denegado(){
+        return "auth/denegado";
     }
 
     @PostMapping("/guardarUsuario")

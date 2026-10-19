@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout::head}">
+</head>
+<body>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="container mt-4">
+    <h1>Panel de mantenimiento</h1>
+    <p class="text-muted">Gestión interna de la biblioteca.</p>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-book"></i> Libros</h5>
+                    <p class="card-text">Mantenimiento de libros y categorías.</p>
+                    <span class="badge text-bg-secondary">Próximamente (Fase 4)</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Préstamos</h5>
+                    <p class="card-text">Registro de préstamos y devoluciones.</p>
+                    <span class="badge text-bg-secondary">Próximamente (Fase 5)</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('ADMIN')">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-users"></i> Usuarios</h5>
+                    <p class="card-text">Mantenimiento de usuarios del sistema.</p>
+                    <a th:href="@{/backoffice/usuarios}" class="btn btn-sm btn-primary">Abrir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

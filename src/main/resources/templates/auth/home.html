@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{layout::head}">
 </head>
 <body>
 <nav th:replace="~{layout::menu}"></nav>
 <div class="container mt-4">
-    <h1 th:text="${nombre}"></h1>
-    <p th:text="${email}"></p>
+    <h1>Bienvenido, <span th:text="${nombres}"></span></h1>
+    <p>Usuario: <b th:text="${nombre}"></b></p>
+    <p>Email: <span th:text="${email}"></span></p>
+    <p>Rol:
+        <span class="badge text-bg-danger" sec:authorize="hasRole('ADMIN')">Administrador</span>
+        <span class="badge text-bg-warning" sec:authorize="hasRole('BIBLIOTECARIO')">Bibliotecario</span>
+        <span class="badge text-bg-success" sec:authorize="hasRole('LECTOR')">Lector</span>
+    </p>
+    <a sec:authorize="hasAnyRole('ADMIN', 'BIBLIOTECARIO')" class="btn btn-outline-primary btn-sm"
+       th:href="@{/backoffice}">Ir al panel de mantenimiento</a>
+    <p class="text-muted mt-3" sec:authorize="hasRole('LECTOR')">
+        Pronto vas a poder explorar el catálogo y solicitar préstamos desde acá.
+    </p>
 </div>
 </body>
 </html>

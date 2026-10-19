@@ -12,6 +12,7 @@ import java.util.Collection;
 public class UsuarioSeguridadDto extends User {
 
     private String email;
+    private String nombres;
 
     public UsuarioSeguridadDto(String username,
                                String password,

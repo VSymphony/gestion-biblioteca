@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout::head}">
+</head>
+<body>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="container mt-4">
+    <h1>Mantenimiento de usuarios</h1>
+    <div class="alert alert-info">
+        Esta pantalla se implementa en la <b>Fase 4</b>. Requiere rol <b>ADMIN</b>.
+    </div>
+    <a class="btn btn-secondary" th:href="@{/backoffice}">Volver al panel</a>
+</div>
+</body>
+</html>

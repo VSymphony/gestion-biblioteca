@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout::head}">
+</head>
+<body>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="container mt-5">
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Acceso denegado</h4>
+        <p class="mb-0">No tenés permisos para ver esa página.</p>
+    </div>
+    <a class="btn btn-primary" th:href="@{/auth/home}">Volver al inicio</a>
+</div>
+</body>
+</html>
