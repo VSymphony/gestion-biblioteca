@@ -13,8 +13,17 @@
             <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title"><i class="fas fa-book"></i> Libros</h5>
-                    <p class="card-text">Mantenimiento de libros y categorías.</p>
-                    <span class="badge text-bg-secondary">Próximamente (Fase 4)</span>
+                    <p class="card-text">Mantenimiento de libros y catálogo.</p>
+                    <a th:href="@{/backoffice/libros}" class="btn btn-sm btn-primary">Abrir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-tags"></i> Categorías</h5>
+                    <p class="card-text">Mantenimiento de categorías de libros.</p>
+                    <a th:href="@{/backoffice/categorias}" class="btn btn-sm btn-primary">Abrir</a>
                 </div>
             </div>
         </div>
@@ -31,7 +40,7 @@
             <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title"><i class="fas fa-users"></i> Usuarios</h5>
-                    <p class="card-text">Mantenimiento de usuarios del sistema.</p>
+                    <p class="card-text">Activación, roles y estado de las cuentas.</p>
                     <a th:href="@{/backoffice/usuarios}" class="btn btn-sm btn-primary">Abrir</a>
                 </div>
             </div>

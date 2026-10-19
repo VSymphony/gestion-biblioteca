@@ -45,8 +45,8 @@ Se crean automáticamente al arrancar la app (solo si no existen):
 ## Autorización
 
 - Rutas públicas: login, registro y recursos estáticos.
-- `/backoffice/**`: solo ADMIN y BIBLIOTECARIO (a nivel de ruta).
-- `/backoffice/usuarios`: solo ADMIN (a nivel de método con `@PreAuthorize`).
+- `/backoffice/**`, `/categoria/**` y `/libro/**`: solo ADMIN y BIBLIOTECARIO.
+- `/usuario/**` y `/backoffice/usuarios`: solo ADMIN (ruta + `@PreAuthorize` a nivel de método).
 - Ocultar opciones en el menú es solo UX: la seguridad real se aplica en el servidor.
 
 ## Captcha (reCAPTCHA v2)
@@ -55,10 +55,22 @@ Se crean automáticamente al arrancar la app (solo si no existen):
 - En desarrollo se usan las **claves de prueba** de Google (siempre aprueban y muestran una advertencia). Para producción, reemplazar por claves reales en `application.properties` (`recaptcha.site.key` / `recaptcha.secret.key`).
 - Si el captcha no se resuelve, el login se rechaza antes de autenticar y el registro no crea al usuario.
 
+## Mantenimientos (backoffice)
+
+- Categorías y libros: ADMIN y BIBLIOTECARIO. Usuarios: solo ADMIN.
+- Patrón JSON + modales: las tablas y formularios llaman por AJAX a `/categoria/*`, `/libro/*` y `/usuario/*`.
+- Todas las respuestas usan el sobre `{respuesta, mensaje, data}` y los AJAX envían el token CSRF (meta tag en el layout).
+
+## Sanitización (SQLi / XSS)
+
+- **SQLi**: todo el acceso a datos pasa por Spring Data JPA (consultas parametrizadas); no se concatenan cadenas SQL.
+- **XSS**: Thymeleaf escapa con `th:text`; las tablas AJAX se construyen con `.text()` de jQuery (nunca `innerHTML` con datos del servidor).
+- Validación en el servidor: campos obligatorios, longitudes, stock numérico y existencia de categorías/roles antes de guardar.
+
 ## Estado del proyecto
 
 - [x] Fase 1 — Esqueleto: login / registro / logout con Spring Security y Argon2
 - [x] Fase 2 — Roles (ADMIN, BIBLIOTECARIO, LECTOR), autorización y home por rol
 - [x] Fase 3 — reCAPTCHA v2 en registro y login (validación server-side)
-- [ ] Fase 4 — Dominio (Categoría, Libro, Préstamo) y mantenimientos
+- [x] Fase 4 — Dominio (Categoría, Libro, Préstamo) y mantenimientos (JSON + modales)
 - [ ] Fase 5 — Flujo de préstamos y catálogo

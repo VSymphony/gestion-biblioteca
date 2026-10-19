@@ -14,9 +14,19 @@ public class BackofficeController {
         return "backoffice/panel";
     }
 
+    @GetMapping("/categorias")
+    public String categorias() {
+        return "backoffice/mantCategoria";
+    }
+
+    @GetMapping("/libros")
+    public String libros() {
+        return "backoffice/mantLibro";
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/usuarios")
     public String usuarios() {
-        return "backoffice/usuarios";
+        return "backoffice/mantUsuario";
     }
 }

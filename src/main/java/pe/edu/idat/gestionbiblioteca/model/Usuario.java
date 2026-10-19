@@ -2,6 +2,7 @@ package pe.edu.idat.gestionbiblioteca.model;
 
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class Usuario {
     private Integer idusuario;
     private String nomusuario;
     private String email;
+    @JsonIgnore
     private String password;
     private String nombres;
     private String apellidos;

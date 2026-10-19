@@ -33,6 +33,9 @@ public class SecurityConfig {
                         "/static/**",
                         "/styles/**",
                         "/scripts/**").permitAll()
+                        .requestMatchers("/categoria/**", "/libro/**")
+                        .hasAnyRole("ADMIN", "BIBLIOTECARIO")
+                .requestMatchers("/usuario/**").hasRole("ADMIN")
                 .requestMatchers("/backoffice", "/backoffice/**")
                         .hasAnyRole("ADMIN", "BIBLIOTECARIO")
                 .anyRequest().authenticated()

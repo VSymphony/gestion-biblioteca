@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout::head}">
+</head>
+<body>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="container mt-4">
+    <h1>Mantenimiento de Usuarios</h1>
+    <p class="text-muted">Solo un administrador puede activar/desactivar usuarios y cambiarles el rol.</p>
+    <div id="mensajeUsuario"></div>
+    <table class="table table-hover" id="tablaUsuarios">
+        <thead class="table-dark">
+        <tr>
+            <th>Usuario</th>
+            <th>Nombres</th>
+            <th>Email</th>
+            <th style="width: 160px;">Rol</th>
+            <th>Estado</th>
+            <th style="width: 130px;">Acciones</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script th:src="@{/scripts/web/comun.js}"></script>
+<script th:src="@{/scripts/web/frmMantUsuario.js}"></script>
+</body>
+</html>

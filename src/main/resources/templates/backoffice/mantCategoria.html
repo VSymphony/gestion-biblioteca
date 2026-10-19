@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout::head}">
+</head>
+<body>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Mantenimiento de Categorías</h1>
+        <button class="btn btn-primary" onclick="nuevaCategoria()">
+            <i class="fas fa-plus"></i> Nueva
+        </button>
+    </div>
+    <div id="mensajeCategoria"></div>
+    <table class="table table-hover" id="tablaCategorias">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th style="width: 180px;">Acciones</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="modalCategoria" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-dark">
+                <h1 class="modal-title fs-5" id="tituloModalCategoria">Categoría</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idCategoria">
+                <div class="mb-3">
+                    <label for="nombreCategoria" class="form-label">Nombre</label>
+                    <input maxlength="100" type="text" class="form-control" id="nombreCategoria">
+                </div>
+                <div class="mb-3">
+                    <label for="descripcionCategoria" class="form-label">Descripción</label>
+                    <textarea maxlength="255" class="form-control" id="descripcionCategoria"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="grabarCategoria()">Grabar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/scripts/web/comun.js}"></script>
+<script th:src="@{/scripts/web/frmMantCategoria.js}"></script>
+</body>
+</html>

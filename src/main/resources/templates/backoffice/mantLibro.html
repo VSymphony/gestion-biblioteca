@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout::head}">
+</head>
+<body>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Mantenimiento de Libros</h1>
+        <button class="btn btn-primary" onclick="nuevoLibro()">
+            <i class="fas fa-plus"></i> Nuevo
+        </button>
+    </div>
+    <div id="mensajeLibro"></div>
+    <table class="table table-hover" id="tablaLibros">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoría</th>
+            <th>Año</th>
+            <th>Stock</th>
+            <th style="width: 180px;">Acciones</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="modalLibro" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-dark">
+                <h1 class="modal-title fs-5" id="tituloModalLibro">Libro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="idLibro">
+                <div class="mb-3">
+                    <label for="tituloLibro" class="form-label">Título</label>
+                    <input maxlength="200" type="text" class="form-control" id="tituloLibro">
+                </div>
+                <div class="mb-3">
+                    <label for="autorLibro" class="form-label">Autor</label>
+                    <input maxlength="150" type="text" class="form-control" id="autorLibro">
+                </div>
+                <div class="mb-3">
+                    <label for="isbnLibro" class="form-label">ISBN</label>
+                    <input maxlength="20" type="text" class="form-control" id="isbnLibro">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="anioLibro" class="form-label">Año</label>
+                        <input type="number" class="form-control" id="anioLibro">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="stockLibro" class="form-label">Stock</label>
+                        <input type="number" min="0" class="form-control" id="stockLibro">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="categoriaLibro" class="form-label">Categoría</label>
+                    <select class="form-select" id="categoriaLibro"></select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="grabarLibro()">Grabar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/scripts/web/comun.js}"></script>
+<script th:src="@{/scripts/web/frmMantLibro.js}"></script>
+</body>
+</html>
