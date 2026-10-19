@@ -58,7 +58,7 @@ public class AuthController {
         return "auth/home";
     }
 
-    @GetMapping("/denegado")
+    @RequestMapping("/denegado")
     public String denegado(){
         return "auth/denegado";
     }

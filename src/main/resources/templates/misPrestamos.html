@@ -33,7 +33,10 @@
                     ? #temporals.format(p.fechadevuelto, 'dd/MM/yyyy') : ''}"></td>
         </tr>
         <tr th:if="${#lists.isEmpty(prestamos)}">
-            <td colspan="5" class="text-center text-muted">Todavía no tienes préstamos.</td>
+            <td colspan="5" class="text-center text-muted">
+                Todavía no tienes préstamos.
+                <a th:href="@{/catalogo}">Explora el catálogo</a> para solicitar uno.
+            </td>
         </tr>
         </tbody>
     </table>

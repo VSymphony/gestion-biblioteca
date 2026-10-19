@@ -30,7 +30,7 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/catalogo}">Catálogo</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('LECTOR')">
                     <a class="nav-link" th:href="@{/misprestamos}">Mis Préstamos</a>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'BIBLIOTECARIO')">

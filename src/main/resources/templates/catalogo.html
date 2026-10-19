@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{layout::head}">
 </head>
 <body>
 <nav th:replace="~{layout::menu}"></nav>
 <div class="container mt-4">
     <h1>Catálogo de Libros</h1>
+    <div class="alert alert-success" th:if="${mensajeOk}" th:text="${mensajeOk}"></div>
+    <div class="alert alert-danger" th:if="${mensajeError}" th:text="${mensajeError}"></div>
     <form class="row g-2 mb-3" method="get" th:action="@{/catalogo}">
         <div class="col-auto">
             <input type="text" class="form-control" name="q" th:value="${q}"
@@ -25,6 +28,7 @@
             <th>Año</th>
             <th>Stock</th>
             <th>Estado</th>
+            <th sec:authorize="hasRole('LECTOR')">Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -40,8 +44,20 @@
                 <span class="badge text-bg-secondary"
                       th:unless="${l.stock != null and l.stock > 0}">Agotado</span>
             </td>
+            <td sec:authorize="hasRole('LECTOR')">
+                <form method="post" th:action="@{/catalogo/solicitar}"
+                      th:if="${l.stock != null and l.stock > 0}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <input type="hidden" name="idlibro" th:value="${l.idlibro}">
+                    <button type="submit" class="btn btn-sm btn-success">Solicitar préstamo</button>
+                </form>
+                <span class="text-muted" th:if="${l.stock == null or l.stock <= 0}">—</span>
+            </td>
         </tr>
-        <tr th:if="${#lists.isEmpty(libros)}">
+        <tr th:if="${#lists.isEmpty(libros)}" sec:authorize="hasRole('LECTOR')">
+            <td colspan="7" class="text-center text-muted">No se encontraron libros.</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(libros)}" sec:authorize="!hasRole('LECTOR')">
             <td colspan="6" class="text-center text-muted">No se encontraron libros.</td>
         </tr>
         </tbody>

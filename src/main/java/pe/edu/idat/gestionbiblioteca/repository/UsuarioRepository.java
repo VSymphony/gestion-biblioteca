@@ -10,5 +10,5 @@ public interface UsuarioRepository
     //select * from usuario where nomusuario=?
     Usuario findByNomusuario(String nomusuario);
 
-    List<Usuario> findByActivoTrueOrderByNomusuario();
+    List<Usuario> findByActivoTrueAndRolNomrolOrderByNomusuario(String nomrol);
 }

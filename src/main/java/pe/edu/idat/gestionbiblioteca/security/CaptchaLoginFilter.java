@@ -9,6 +9,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import pe.edu.idat.gestionbiblioteca.service.CaptchaService;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 // Corre antes del filtro de login: sin captcha valido no se llega a autenticar.
 @RequiredArgsConstructor
@@ -27,7 +29,12 @@ public class CaptchaLoginFilter extends OncePerRequestFilter {
             FilterChain filterChain) throws ServletException, IOException {
         String captchaResponse = request.getParameter("g-recaptcha-response");
         if (!captchaService.validar(captchaResponse)) {
-            response.sendRedirect(request.getContextPath() + "/auth/login?captchaError=true");
+            String destino = "/auth/login?captchaError=true";
+            String nomusuario = request.getParameter("nomusuario");
+            if (nomusuario != null && !nomusuario.isBlank()) {
+                destino += "&nomusuario=" + URLEncoder.encode(nomusuario, StandardCharsets.UTF_8);
+            }
+            response.sendRedirect(request.getContextPath() + destino);
             return;
         }
         filterChain.doFilter(request, response);

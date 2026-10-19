@@ -36,7 +36,8 @@
             <div class="mb-3">
                 <label for="nomusuario" class="form-label">Usuario</label>
                 <input maxlength="15" type="text" class="form-control"
-                       name="nomusuario" id="nomusuario">
+                       name="nomusuario" id="nomusuario"
+                       th:value="${param.nomusuario}">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>

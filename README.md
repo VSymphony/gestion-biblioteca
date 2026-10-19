@@ -47,7 +47,8 @@ Se crean automáticamente al arrancar la app (solo si no existen):
 - Rutas públicas: login, registro y recursos estáticos.
 - `/backoffice/**`, `/categoria/**`, `/libro/**` y `/prestamo/**`: solo ADMIN y BIBLIOTECARIO.
 - `/usuario/**` y `/backoffice/usuarios`: solo ADMIN (ruta + `@PreAuthorize` a nivel de método).
-- `/catalogo` y `/misprestamos`: cualquier usuario autenticado.
+- `/catalogo`: cualquier usuario autenticado (los lectores solicitan préstamos desde ahí).
+- `/misprestamos`: solo LECTOR.
 - Ocultar opciones en el menú es solo UX: la seguridad real se aplica en el servidor.
 
 ## Captcha (reCAPTCHA v2)
@@ -74,4 +75,4 @@ Se crean automáticamente al arrancar la app (solo si no existen):
 - [x] Fase 2 — Roles (ADMIN, BIBLIOTECARIO, LECTOR), autorización y home por rol
 - [x] Fase 3 — reCAPTCHA v2 en registro y login (validación server-side)
 - [x] Fase 4 — Dominio (Categoría, Libro, Préstamo) y mantenimientos (JSON + modales)
-- [x] Fase 5 — Flujo de préstamos (registro/devolución con stock) y catálogo
+- [x] Fase 5 — Préstamos (autoservicio del lector y en mostrador) con control de stock, catálogo y mis préstamos
