@@ -9,6 +9,7 @@
           rel="stylesheet"/>
     <script th:src="@{/scripts/bootstrap/bootstrap.bundle.js}"
             type="text/javascript"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 <div class="card">
@@ -16,6 +17,10 @@
         Registro de Usuario
     </div>
     <div class="card-body">
+        <div th:if="${captchaError}"
+             class="alert alert-danger"
+             th:text="${captchaError}">
+        </div>
         <form th:action="@{/auth/guardarUsuario}" th:object="${usuario}" method="post">
             <input type="hidden"
                    th:name="${_csrf.parameterName}"
@@ -44,6 +49,10 @@
                 <label for="password" class="form-label">Password</label>
                 <input maxlength="15" type="password" class="form-control"
                        name="password" id="password">
+            </div>
+            <div class="mb-3">
+                <div class="g-recaptcha"
+                     th:attr="data-sitekey=${recaptchaSiteKey}"></div>
             </div>
             <button type="submit" id="btnregistrar" class="btn btn-primary">
                 <i class="fas fa-save"></i>

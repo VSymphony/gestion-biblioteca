@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pe.edu.idat.gestionbiblioteca.service.CaptchaService;
 import pe.edu.idat.gestionbiblioteca.service.DetalleUsuarioService;
 
 @Configuration
@@ -19,6 +21,7 @@ import pe.edu.idat.gestionbiblioteca.service.DetalleUsuarioService;
 public class SecurityConfig {
     private final DetalleUsuarioService detalleUsuarioService;
     private final PasswordEncoder passwordEncoder;
+    private final CaptchaService captchaService;
 
     @Bean
     public SecurityFilterChain config(HttpSecurity http) throws Exception {
@@ -49,7 +52,9 @@ public class SecurityConfig {
                         .permitAll()
         ).exceptionHandling(exception ->
                 exception.accessDeniedPage("/auth/denegado")
-        ).authenticationProvider(authenticationProvider());
+        ).authenticationProvider(authenticationProvider())
+        .addFilterBefore(new CaptchaLoginFilter(captchaService),
+                UsernamePasswordAuthenticationFilter.class);
         return http.build();
 
     }

@@ -49,10 +49,16 @@ Se crean automáticamente al arrancar la app (solo si no existen):
 - `/backoffice/usuarios`: solo ADMIN (a nivel de método con `@PreAuthorize`).
 - Ocultar opciones en el menú es solo UX: la seguridad real se aplica en el servidor.
 
+## Captcha (reCAPTCHA v2)
+
+- El registro y el login validan el captcha **en el servidor** (POST a `siteverify` de Google).
+- En desarrollo se usan las **claves de prueba** de Google (siempre aprueban y muestran una advertencia). Para producción, reemplazar por claves reales en `application.properties` (`recaptcha.site.key` / `recaptcha.secret.key`).
+- Si el captcha no se resuelve, el login se rechaza antes de autenticar y el registro no crea al usuario.
+
 ## Estado del proyecto
 
 - [x] Fase 1 — Esqueleto: login / registro / logout con Spring Security y Argon2
 - [x] Fase 2 — Roles (ADMIN, BIBLIOTECARIO, LECTOR), autorización y home por rol
-- [ ] Fase 3 — reCAPTCHA
+- [x] Fase 3 — reCAPTCHA v2 en registro y login (validación server-side)
 - [ ] Fase 4 — Dominio (Categoría, Libro, Préstamo) y mantenimientos
 - [ ] Fase 5 — Flujo de préstamos y catálogo

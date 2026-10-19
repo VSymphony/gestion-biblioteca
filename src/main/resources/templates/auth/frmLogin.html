@@ -9,6 +9,7 @@
           rel="stylesheet"/>
     <script th:src="@{/scripts/bootstrap/bootstrap.bundle.js}"
             type="text/javascript"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 <div class="card">
@@ -19,6 +20,10 @@
         <div th:if="${param.error}"
              class="alert alert-danger">
             Usuario o contraseña incorrectos.
+        </div>
+        <div th:if="${param.captchaError}"
+             class="alert alert-danger">
+            Captcha inválido. Inténtalo de nuevo.
         </div>
         <div th:if="${param.logout}"
              class="alert alert-success">
@@ -37,6 +42,10 @@
                 <label for="password" class="form-label">Password</label>
                 <input maxlength="15" type="password" class="form-control"
                        name="password" id="password">
+            </div>
+            <div class="mb-3">
+                <div class="g-recaptcha"
+                     th:attr="data-sitekey=${recaptchaSiteKey}"></div>
             </div>
             <button type="submit" id="btningresar" class="btn btn-primary">
                 <i class="fas fa-save"></i>

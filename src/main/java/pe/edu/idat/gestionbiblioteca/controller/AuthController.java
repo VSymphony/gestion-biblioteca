@@ -1,6 +1,7 @@
 package pe.edu.idat.gestionbiblioteca.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pe.edu.idat.gestionbiblioteca.dto.UsuarioSeguridadDto;
 import pe.edu.idat.gestionbiblioteca.model.Usuario;
+import pe.edu.idat.gestionbiblioteca.service.CaptchaService;
 import pe.edu.idat.gestionbiblioteca.service.UsuarioService;
 
 @RequiredArgsConstructor
@@ -17,15 +20,21 @@ import pe.edu.idat.gestionbiblioteca.service.UsuarioService;
 @RequestMapping("/auth")
 public class AuthController {
     private final UsuarioService usuarioService;
+    private final CaptchaService captchaService;
+
+    @Value("${recaptcha.site.key}")
+    private String recaptchaSiteKey;
 
     @GetMapping("/login")
-    public String login(){
+    public String login(Model model){
+        model.addAttribute("recaptchaSiteKey", recaptchaSiteKey);
         return "auth/frmLogin";
     }
 
     @GetMapping("/registrar")
     public String registrar(Model model){
         model.addAttribute("usuario", new Usuario());
+        model.addAttribute("recaptchaSiteKey", recaptchaSiteKey);
         return "auth/frmRegistroUsuario";
     }
 
@@ -55,7 +64,15 @@ public class AuthController {
     }
 
     @PostMapping("/guardarUsuario")
-    public String guardarUsuario(@ModelAttribute("usuario") Usuario usuario){
+    public String guardarUsuario(@ModelAttribute("usuario") Usuario usuario,
+                                 @RequestParam(name = "g-recaptcha-response", required = false) String captchaResponse,
+                                 Model model){
+        if(!captchaService.validar(captchaResponse)){
+            model.addAttribute("captchaError", "Captcha inválido. Inténtalo de nuevo.");
+            model.addAttribute("recaptchaSiteKey", recaptchaSiteKey);
+            usuario.setPassword(null);
+            return "auth/frmRegistroUsuario";
+        }
         usuarioService.saveUser(usuario);
         return "redirect:/auth/login";
     }
