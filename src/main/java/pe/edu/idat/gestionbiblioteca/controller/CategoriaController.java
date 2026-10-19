@@ -1,17 +1,22 @@
 package pe.edu.idat.gestionbiblioteca.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pe.edu.idat.gestionbiblioteca.dto.CategoriaDto;
 import pe.edu.idat.gestionbiblioteca.dto.Respuesta;
 import pe.edu.idat.gestionbiblioteca.model.Categoria;
 import pe.edu.idat.gestionbiblioteca.repository.CategoriaRepository;
 import pe.edu.idat.gestionbiblioteca.repository.LibroRepository;
+import pe.edu.idat.gestionbiblioteca.util.Validacion;
 
 @RestController
 @RequestMapping("/categoria")
@@ -28,21 +33,19 @@ public class CategoriaController {
     }
 
     @PostMapping("/grabar")
-    public Respuesta grabar(@RequestParam(required = false) Integer idcategoria,
-                            @RequestParam(required = false) String nombre,
-                            @RequestParam(required = false) String descripcion) {
-        nombre = nombre == null ? "" : nombre.trim();
-        if (nombre.isBlank()) {
-            return new Respuesta(false, "El nombre es obligatorio");
+    public Respuesta grabar(@Valid @ModelAttribute CategoriaDto dto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new Respuesta(false, Validacion.primerMensaje(bindingResult));
         }
+        String nombre = dto.getNombre().trim();
         Categoria categoria;
-        if (idcategoria == null) {
+        if (dto.getIdcategoria() == null) {
             if (categoriaRepository.existsByNombreIgnoreCase(nombre)) {
                 return new Respuesta(false, "Ya existe una categoría con ese nombre");
             }
             categoria = new Categoria();
         } else {
-            categoria = categoriaRepository.findById(idcategoria).orElse(null);
+            categoria = categoriaRepository.findById(dto.getIdcategoria()).orElse(null);
             if (categoria == null) {
                 return new Respuesta(false, "La categoría no existe");
             }
@@ -52,7 +55,7 @@ public class CategoriaController {
             }
         }
         categoria.setNombre(nombre);
-        categoria.setDescripcion(descripcion == null ? null : descripcion.trim());
+        categoria.setDescripcion(dto.getDescripcion() == null ? null : dto.getDescripcion().trim());
         categoriaRepository.save(categoria);
         return new Respuesta(true, "Categoría guardada correctamente");
     }

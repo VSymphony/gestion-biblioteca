@@ -1,15 +1,18 @@
 package pe.edu.idat.gestionbiblioteca.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pe.edu.idat.gestionbiblioteca.dto.RegistroUsuarioDto;
 import pe.edu.idat.gestionbiblioteca.dto.UsuarioSeguridadDto;
 import pe.edu.idat.gestionbiblioteca.model.Usuario;
 import pe.edu.idat.gestionbiblioteca.service.CaptchaService;
@@ -33,7 +36,7 @@ public class AuthController {
 
     @GetMapping("/registrar")
     public String registrar(Model model){
-        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuario", new RegistroUsuarioDto());
         model.addAttribute("recaptchaSiteKey", recaptchaSiteKey);
         return "auth/frmRegistroUsuario";
     }
@@ -64,16 +67,28 @@ public class AuthController {
     }
 
     @PostMapping("/guardarUsuario")
-    public String guardarUsuario(@ModelAttribute("usuario") Usuario usuario,
+    public String guardarUsuario(@Valid @ModelAttribute("usuario") RegistroUsuarioDto dto,
+                                 BindingResult bindingResult,
                                  @RequestParam(name = "g-recaptcha-response", required = false) String captchaResponse,
                                  Model model){
         if(!captchaService.validar(captchaResponse)){
             model.addAttribute("captchaError", "Captcha inválido. Inténtalo de nuevo.");
             model.addAttribute("recaptchaSiteKey", recaptchaSiteKey);
-            usuario.setPassword(null);
+            dto.setPassword(null);
             return "auth/frmRegistroUsuario";
         }
+        if(bindingResult.hasErrors()){
+            model.addAttribute("recaptchaSiteKey", recaptchaSiteKey);
+            dto.setPassword(null);
+            return "auth/frmRegistroUsuario";
+        }
+        Usuario usuario = new Usuario();
+        usuario.setNombres(dto.getNombres().trim());
+        usuario.setApellidos(dto.getApellidos().trim());
+        usuario.setNomusuario(dto.getNomusuario().trim());
+        usuario.setEmail(dto.getEmail().trim());
+        usuario.setPassword(dto.getPassword());
         usuarioService.saveUser(usuario);
-        return "redirect:/auth/login";
+        return "redirect:/auth/login?registrado";
     }
 }

@@ -25,6 +25,10 @@
              class="alert alert-danger">
             Captcha inválido. Inténtalo de nuevo.
         </div>
+        <div th:if="${param.registrado}"
+             class="alert alert-success">
+            Usuario registrado correctamente. Inicia sesión.
+        </div>
         <div th:if="${param.logout}"
              class="alert alert-success">
             La sesión se cerró correctamente.
@@ -41,7 +45,7 @@
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input maxlength="15" type="password" class="form-control"
+                <input maxlength="30" type="password" class="form-control"
                        name="password" id="password">
             </div>
             <div class="mb-3">
